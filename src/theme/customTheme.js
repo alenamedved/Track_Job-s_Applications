@@ -4,16 +4,20 @@ export const customTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#03071e',
-      light: '#370617',
-      dark: '#6a040f'
+      main: 'rgba(168,85,247,.80)',
+      light: 'rgba(168,85,247,.65)',
+      dark: 'rgba(168,85,247,.28)',
     },
     background: {
       paper: '#151515',
-      default: '#0d1b2a'
-    }
+      default: 'rgba(0,0,0,.96)',
+    },
   },
   typography: {
-    fontFamily: ['Oswald', 'sans-serif'].join(',')
-  }
+    fontFamily: ['Oswald', 'sans-serif'].join(','),
+    button: {
+      fontFamily: '"Oswald", sans-serif',
+      fontWeight: 700,
+    },
+  },
 });
