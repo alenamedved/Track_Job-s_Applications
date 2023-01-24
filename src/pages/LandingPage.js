@@ -1,6 +1,9 @@
 import { Box, Typography, Grid, Button } from '@mui/material';
 import src from '../sources/main.png';
 import logo from '../sources/undraw_job_hunt.svg';
+import { Link } from 'react-router-dom';
+//I would need register/login page, dashboard page with all data, error page
+
 const LandingPage = () => {
   return (
     <>
@@ -21,12 +24,13 @@ const LandingPage = () => {
               src={logo}
               sx={{
                 width: '100px',
+                // height: '300px',
               }}
             ></Box>
           </Grid>
           <Grid item mt={8}>
             <Typography variant="h3"> Track my Job Applications App</Typography>
-            <Typography variant="body" component="body">
+            <Typography variant="subtitle1">
               Doggo ipsum tungg very hand that feed shibe you are doing me the shock shibe snoot
               doggo much ruin diet, boofers long bois shoober fluffer much ruin diet. Shooberino
               boof very good spot puggo very taste wow, snoot you are doing me a frighten smol
@@ -35,16 +39,26 @@ const LandingPage = () => {
             </Typography>
           </Grid>
           <Grid item mt={8}>
-            <Button variant="contained" color="success" size="large">
+            <Button variant="contained" color="success" size="large" href="dashboard">
               Login/Register
             </Button>
           </Grid>
         </Grid>
         {/* </Grid> */}
         <Grid item xs={4}>
-          <Box component="img" alt="app main image" src={src} />
+          <Box
+            component="img"
+            alt="app main image"
+            src={src}
+            sx={{
+              //width: '100%',
+              height: '100vh',
+              opacity: 0.8,
+            }}
+          />
         </Grid>
       </Grid>
+      <Link to="dashboard">Click to move to dashBoard</Link>
       {/* </Box> */}
     </>
   );
