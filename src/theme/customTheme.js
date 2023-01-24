@@ -4,7 +4,7 @@ export const customTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: 'rgba(168,85,247,.80)',
+      main: '#118ab2',
       light: 'rgba(168,85,247,.65)',
       dark: 'rgba(168,85,247,.28)',
     },

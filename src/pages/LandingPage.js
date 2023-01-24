@@ -1,33 +1,17 @@
 import { Box, Typography, Grid, Button } from '@mui/material';
 import src from '../sources/main.png';
-import logo from '../sources/undraw_job_hunt.svg';
+// import logo from '../sources/undraw_job_hunt.svg';
 import { Link } from 'react-router-dom';
+
 //I would need register/login page, dashboard page with all data, error page
 
 const LandingPage = () => {
   return (
     <>
-      {/* <Box
-        sx={{
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'background.default',
-        }}
-      > */}
       <Grid container direction="row">
         <Grid item xs={8}>
           {/* <Grid container direction="column" spacing={4}> */}
-          <Grid item>
-            <Box
-              component="img"
-              alt="logo"
-              src={logo}
-              sx={{
-                width: '100px',
-                // height: '300px',
-              }}
-            ></Box>
-          </Grid>
+
           <Grid item mt={8}>
             <Typography variant="h3"> Track my Job Applications App</Typography>
             <Typography variant="subtitle1">
@@ -39,7 +23,7 @@ const LandingPage = () => {
             </Typography>
           </Grid>
           <Grid item mt={8}>
-            <Button variant="contained" color="success" size="large" href="dashboard">
+            <Button variant="contained" color="success" size="large" component={Link} to="/login">
               Login/Register
             </Button>
           </Grid>
@@ -51,6 +35,8 @@ const LandingPage = () => {
             alt="app main image"
             src={src}
             sx={{
+              position: 'absolute',
+              top: '0px',
               //width: '100%',
               height: '100vh',
               opacity: 0.8,
@@ -58,8 +44,6 @@ const LandingPage = () => {
           />
         </Grid>
       </Grid>
-      <Link to="dashboard">Click to move to dashBoard</Link>
-      {/* </Box> */}
     </>
   );
 };
