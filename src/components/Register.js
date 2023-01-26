@@ -1,18 +1,16 @@
 import * as React from 'react';
-// import Avatar from '@mui/material/Avatar';
+import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { initialUser } from '../constants/user';
+import InputField from './InputField';
+import { registerInputFields } from '../constants/inputs';
 import Button from '@mui/material/Button';
-// import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
+
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-// import Logo from './Logo';
-// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 // function Copyright(props) {
 //   return (
@@ -28,9 +26,17 @@ import Container from '@mui/material/Container';
 // }
 
 export default function Register() {
+  const [user, setUser] = useState(initialUser);
+  console.log(user);
+
+  useEffect(() => {
+    setUser(initialUser);
+  }, []);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    console.log(user, 'user');
     console.log({
       name: data.get('name'),
       email: data.get('email'),
@@ -39,8 +45,20 @@ export default function Register() {
   };
 
   const handleInputChange = (e) => {
-    console.log(e.target.value);
+    console.log(e.target);
+    switch (e.target.name) {
+      case 'name':
+        setUser({ ...user, name: e.target.value });
+        break;
+      case 'email':
+        setUser({ ...user, email: e.target.value });
+        break;
+      case 'password':
+        setUser({ ...user, password: e.target.value });
+        break;
+    }
   };
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -52,59 +70,28 @@ export default function Register() {
         }}
       >
         <Typography component="h1" variant="h5">
-          Sign in
+          Register
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            onChange={handleInputChange}
-            margin="normal"
-            required
-            fullWidth
-            id="name"
-            label="User name"
-            name="name"
-            autoComplete="name"
-            autoFocus
-          />
-          <TextField
-            onChange={handleInputChange}
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            onChange={handleInputChange}
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          /> */}
+          {registerInputFields.map((input) => {
+            return (
+              <InputField
+                key={input.name}
+                name={input.name}
+                label={input.label}
+                value={user[input.name]}
+                onChange={handleInputChange}
+              />
+            );
+          })}
+
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
+            <Grid item xs></Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
+              <Link to="/login">{'Have an account? Log In'}</Link>
             </Grid>
           </Grid>
         </Box>

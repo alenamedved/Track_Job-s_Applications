@@ -1,10 +1,8 @@
 import React from 'react';
-// import SignIn from '../components/SignIn';
-import Register from '../components/Register';
+import SignIn from '../components/SignIn';
 
 function LoginPage() {
-  // return <SignIn />;
-  return <Register />;
+  return <SignIn />;
 }
 
 export default LoginPage;
