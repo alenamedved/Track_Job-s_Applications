@@ -33,7 +33,7 @@ const applications = [
 ];
 function Jobs() {
   return (
-    <Grid container spacing={4} sx={{ mt: 4 }}>
+    <Grid container spacing={6} sx={{ p: 6 }}>
       {applications.map((application, ind) => (
         <Application key={ind} data={application} />
       ))}

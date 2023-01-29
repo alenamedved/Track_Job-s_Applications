@@ -4,20 +4,17 @@ import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-// import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import { CardHeader } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
-// import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/material/styles';
 import Collapse from '@mui/material/Collapse';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Chip from '@mui/material/Chip';
-// import CardMedia from '@mui/material/CardMedia';
 
 const ExpandMore = styled((props) => {
   // eslint-disable-next-line no-unused-vars
@@ -41,14 +38,7 @@ function Application({ data }) {
   };
 
   return (
-    <Grid
-      item
-      xs={12}
-      md={6}
-      sx={{
-        mx: 6,
-      }}
-    >
+    <Grid item xs={12} md={6}>
       <Card sx={{ display: 'flex', flexDirection: 'column' }}>
         <CardHeader
           sx={{
@@ -77,14 +67,11 @@ function Application({ data }) {
               <Typography variant="subtitle1" paragraph>
                 {data.status}
               </Typography>
-              {/* <Typography variant="subtitle1" paragraph> */}
+
               <Chip label={data.response.toUpperCase()}></Chip>
-              {/* {data.response} */}
-              {/* </Typography> */}
             </Grid>
           </Grid>
           <CardActions disableSpacing>
-            {/* <CardActionArea component="a" href="#"> */}
             <IconButton aria-label="edit" sx={{ mr: 6 }}>
               <EditIcon />
             </IconButton>
@@ -100,19 +87,13 @@ function Application({ data }) {
               <ExpandMoreIcon />
             </ExpandMore>
           </CardActions>
-          {/* </CardActionArea> */}
+
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography paragraph>{data.notes}</Typography>
             </CardContent>
           </Collapse>
         </CardContent>
-        {/* <CardMedia
-          component="img"
-          sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
-          image={post.image}
-          alt={post.imageLabel}
-        /> */}
       </Card>
     </Grid>
   );
@@ -120,13 +101,6 @@ function Application({ data }) {
 
 Application.propTypes = {
   data: PropTypes.object,
-  post: PropTypes.shape({
-    date: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    imageLabel: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 export default Application;
