@@ -1,11 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
+import Stats from '../components/Stats';
+import Jobs from '../components/Jobs';
 
 function Dashboard() {
   return (
     <>
       <div>DAshboard</div>
-      <Link to="/landingpage">Back home</Link>
+      <Stats />
+      <Jobs />
     </>
   );
 }

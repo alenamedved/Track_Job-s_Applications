@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { initialUser } from '../constants/user';
 import InputField from './InputField';
 import { registerInputFields } from '../constants/inputs';
@@ -27,12 +27,13 @@ function Copyright(props) {
 
 export default function LoginPage() {
   const [user, setUser] = useState(initialUser);
-  console.log(user);
+
   const signinPage = user.isRegistered;
   const linkMessage = signinPage ? 'Dont have an account? Register' : 'Have an account? Log in';
-  useEffect(() => {
-    setUser(initialUser);
-  }, []);
+
+  // useEffect(() => {
+  //   setUser(initialUser);
+  // }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -46,7 +47,6 @@ export default function LoginPage() {
   };
 
   const handleInputChange = (e) => {
-    console.log(e.target);
     switch (e.target.name) {
       case 'name':
         setUser({ ...user, name: e.target.value });
@@ -59,7 +59,7 @@ export default function LoginPage() {
         break;
     }
   };
-
+  console.log(user);
   return (
     <Container component="main" maxWidth="xs">
       <Box
