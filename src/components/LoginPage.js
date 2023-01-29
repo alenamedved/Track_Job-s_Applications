@@ -12,23 +12,24 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-// function Copyright(props) {
-//   return (
-//     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://mui.com/">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
+function Copyright(props) {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://mui.com/">
+        Track Your Jobs
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
-export default function Register() {
+export default function LoginPage() {
   const [user, setUser] = useState(initialUser);
   console.log(user);
-
+  const signinPage = user.isRegistered;
+  const linkMessage = signinPage ? 'Dont have an account? Register' : 'Have an account? Log in';
   useEffect(() => {
     setUser(initialUser);
   }, []);
@@ -70,10 +71,14 @@ export default function Register() {
         }}
       >
         <Typography component="h1" variant="h5">
-          Register
+          {signinPage ? 'Sign In' : 'Register'}
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           {registerInputFields.map((input) => {
+            if (input.name === 'name' && signinPage) {
+              return;
+            }
+
             return (
               <InputField
                 key={input.name}
@@ -86,17 +91,17 @@ export default function Register() {
           })}
 
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            Sign In
+            {signinPage ? 'Sign In' : 'Register'}
           </Button>
           <Grid container>
             <Grid item xs></Grid>
             <Grid item>
-              <Link to="/login">{'Have an account? Log In'}</Link>
+              <Link to="/login">{linkMessage}</Link>
             </Grid>
           </Grid>
         </Box>
       </Box>
-      {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
+      <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>
   );
 }
