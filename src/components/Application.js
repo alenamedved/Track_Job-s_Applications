@@ -39,7 +39,14 @@ function Application({ data }) {
 
   return (
     <Grid item xs={12} md={6}>
-      <Card sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Card
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          border: 'solid 8px #1a1919',
+          borderRadius: '10px',
+        }}
+      >
         <CardHeader
           sx={{
             borderBottom: '2px solid gray',
