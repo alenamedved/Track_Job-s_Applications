@@ -10,7 +10,7 @@ export const customTheme = createTheme({
     },
     background: {
       paper: '#151515',
-      default: 'rgba(0,0,0,.96)',
+      default: 'rgba(0,0,0,.92)',
     },
   },
   typography: {
