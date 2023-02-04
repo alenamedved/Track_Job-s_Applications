@@ -64,22 +64,17 @@ export default function LoginPage() {
   };
 
   const handleInputChange = (e) => {
-    switch (e.target.name) {
-      case 'name':
-        setUserData({ ...userData, name: e.target.value });
-        break;
-      case 'email':
-        setUserData({ ...userData, email: e.target.value });
-        break;
-      case 'password':
-        setUserData({ ...userData, password: e.target.value });
-        break;
-    }
+    const name = e.target.name;
+    const value = e.target.value;
+    setUserData({ ...userData, [name]: value });
   };
 
   const register = () => {
     const { name, email, password } = userData;
-    if (!name) toast.error('Please, provide a name');
+    if (!name) {
+      toast.error('Please, provide a name');
+      return;
+    }
     registerWithEmailAndPassword(name, email, password);
   };
 
