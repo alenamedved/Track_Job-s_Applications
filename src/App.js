@@ -3,7 +3,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 import { customTheme as theme } from './theme/customTheme';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // import { Logo } from './components';
-import { Dashboard, AddJob, Layout } from './pages/dashboard';
+import { Dashboard, AddJobForm, Layout } from './pages/dashboard';
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
-            <Route path="addjob" element={<AddJob />} />
+            <Route path="addjob" element={<AddJobForm />} />
           </Route>
 
           {/* <Route path="/" element={<Dashboard />} /> */}

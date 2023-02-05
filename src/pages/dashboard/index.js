@@ -1,5 +1,5 @@
-import AddJob from './AddJob';
+import AddJobForm from './AddJobForm';
 import Dashboard from './Dashboard';
 import Layout from './Layout';
 
-export { AddJob, Dashboard, Layout };
+export { AddJobForm, Dashboard, Layout };

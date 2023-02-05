@@ -30,13 +30,13 @@ function Layout() {
   };
 
   useEffect(() => {
-    // if (loading) return;
+    if (loading) return;
     if (!user) return navigate('/login');
     fetchUserName();
   }, [user, loading]);
 
   return (
-    <Grid container sx={{ p: 4 }}>
+    <Grid container sx={{ p: 4, justifyContent: 'center' }}>
       <Grid container justifyContent="space-between">
         <Logo />
         <Typography>{`Hello, ${name}`}</Typography>

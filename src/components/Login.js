@@ -46,9 +46,9 @@ export default function LoginPage() {
   const linkMessage = signinPage ? 'Dont have an account? Register' : 'Have an account? Log in';
 
   useEffect(() => {
-    if (loading) {
-      return;
-    }
+    // if (loading) {
+    //   return;
+    // }
     if (user) navigate('/');
   }, [user, loading]);
 
