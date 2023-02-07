@@ -23,7 +23,7 @@ const LandingPage = () => {
             </Typography>
           </Grid>
           <Grid item mt={8}>
-            <Button variant="contained" color="success" size="large" component={Link} to="/login">
+            <Button variant="contained" size="large" component={Link} to="/login">
               Login/Register
             </Button>
           </Grid>

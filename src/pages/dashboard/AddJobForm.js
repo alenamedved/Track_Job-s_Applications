@@ -46,7 +46,7 @@ const AddJobForm = () => {
         Create a Job Application
       </Typography>
       <Grid container spacing={2}>
-        <Grid item md={5} sm={12}>
+        <Grid item md={5} sm={12} sx={{ width: '100%' }}>
           <Stack spacing={4}>
             <TextInput
               value={data.jobTitle}
@@ -64,7 +64,7 @@ const AddJobForm = () => {
             />
           </Stack>
         </Grid>
-        <Grid item md={5} sm={12}>
+        <Grid item md={5} sm={12} sx={{ width: '100%' }}>
           <Stack spacing={4}>
             <TextInput value={data.company} label="Company" name="company" onChange={onChange} />
             <SelectField
@@ -77,7 +77,7 @@ const AddJobForm = () => {
             />
           </Stack>
         </Grid>
-        <Grid item md={2} sm={12}>
+        <Grid item md={2} sm={12} sx={{ width: '100%' }}>
           <Stack spacing={4}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DesktopDatePicker
@@ -92,10 +92,12 @@ const AddJobForm = () => {
             <TextInput value={data.response} label="Response" name="response" onChange={onChange} />
           </Stack>
         </Grid>
-        <Grid item md={10} sm={12}>
+        <Grid item md={10} sm={12} sx={{ width: '100%' }}>
           <TextInput value={data.notes} label="Notes" name="notes" onChange={onChange} />
         </Grid>
-        <Button onClick={() => console.log(data)}>Submit</Button>
+        <Button onClick={() => console.log(data)} sx={{ margin: 'auto' }}>
+          Submit
+        </Button>
       </Grid>
     </Box>
   );

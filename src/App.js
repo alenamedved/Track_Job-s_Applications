@@ -9,17 +9,14 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {/* <Logo /> */}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
             <Route path="addjob" element={<AddJobForm />} />
           </Route>
-
-          {/* <Route path="/" element={<Dashboard />} /> */}
           <Route path="login" element={<LoginPage />} />
-          <Route path="letstrack" element={<LandingPage />} />
+          <Route path="land" element={<LandingPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>

@@ -9,18 +9,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-
+import Loader from './Loader';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-import { useAuthState } from 'react-firebase-hooks/auth';
-
-import {
-  auth,
-  logInWithEmailAndPassword,
-  registerWithEmailAndPassword,
-  signInWithGoogle,
-} from '../firebase';
+import { useAuth } from '../components/context/authUserContext';
 
 function Copyright(props) {
   return (
@@ -37,20 +30,25 @@ function Copyright(props) {
 
 export default function LoginPage() {
   const [userData, setUserData] = useState(initialUser);
-  const [user, loading, error] = useAuthState(auth);
 
-  console.log(user, loading, error);
+  const {
+    authUser,
+    loading,
+    logInWithEmailAndPassword,
+    signInWithGoogle,
+    registerWithEmailAndPassword,
+  } = useAuth();
+
   const navigate = useNavigate();
 
   const signinPage = userData.isRegistered;
   const linkMessage = signinPage ? 'Dont have an account? Register' : 'Have an account? Log in';
 
   useEffect(() => {
-    // if (loading) {
-    //   return;
-    // }
-    if (user) navigate('/');
-  }, [user, loading]);
+    if (loading) return;
+
+    if (authUser) navigate('/');
+  }, [authUser, loading]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -77,7 +75,7 @@ export default function LoginPage() {
     }
     registerWithEmailAndPassword(name, email, password);
   };
-
+  if (loading) return <Loader />;
   return (
     <Container component="main" maxWidth="xs">
       <ToastContainer />
@@ -138,6 +136,7 @@ export default function LoginPage() {
                 variant="text"
                 aria-label="forgot password"
                 size="small"
+                onClick={sendPasswordReset}
               >
                 Forgot password?
               </Button> */}

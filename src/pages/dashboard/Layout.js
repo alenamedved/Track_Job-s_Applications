@@ -1,45 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Grid, Typography } from '@mui/material';
-import { logout } from '../../firebase';
 import { Outlet } from 'react-router-dom';
 import { Logo } from '../../components';
 
-import { auth, db } from '../../firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { useAuth } from '../../components/context/authUserContext';
 import { useNavigate } from 'react-router-dom';
-import { query, collection, getDocs, where } from 'firebase/firestore';
+import Loader from '../../components/Loader';
 
 function Layout() {
-  const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState('');
   const navigate = useNavigate();
-  console.log(error);
 
-  const fetchUserName = async () => {
-    try {
-      console.log(user, 'user');
-      const q = query(collection(db, 'users'), where('uid', '==', user?.uid));
-      const doc = await getDocs(q);
-      const data = doc.docs[0].data();
-      setName(data?.name);
-      console.log(data);
-    } catch (err) {
-      console.error(err);
-      alert('An error occured while fetching user data');
-    }
-  };
+  const { authUser, logout, loading } = useAuth();
 
   useEffect(() => {
     if (loading) return;
-    if (!user) return navigate('/login');
-    fetchUserName();
-  }, [user, loading]);
+    if (!authUser) return navigate('/login');
+
+    setName(authUser.name);
+  }, [authUser, loading]);
+
+  if (!authUser) return <Loader />;
 
   return (
     <Grid container sx={{ p: 4, justifyContent: 'center' }}>
       <Grid container justifyContent="space-between">
         <Logo />
-        <Typography>{`Hello, ${name}`}</Typography>
+        {name && <Typography>{`How was your day, ${name}?`}</Typography>}
         <Button onClick={logout}>Log out</Button>
       </Grid>
       <Outlet />
