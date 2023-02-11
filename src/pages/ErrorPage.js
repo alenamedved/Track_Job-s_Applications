@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Button, Container, Typography } from '@mui/material';
 import src from '../sources/main.png';
+
 function ErrorPage() {
   return (
     <Container sx={{ position: 'relative', textAlign: 'center', padding: '0px' }}>

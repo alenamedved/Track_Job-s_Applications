@@ -1,8 +1,5 @@
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
@@ -15,6 +12,7 @@ import {
 } from 'firebase/auth';
 import { db } from '../firebase';
 import { query, getDocs, collection, where, addDoc } from 'firebase/firestore';
+
 const formatAuthUser = (user) => ({
   uid: user.uid,
   email: user.email,
@@ -23,7 +21,7 @@ const formatAuthUser = (user) => ({
 
 export default function useFirebaseAuth() {
   const [user, loading, error] = useAuthState(auth);
-
+  console.log('useFirebaseAuth run');
   const authUser = user && formatAuthUser(user);
 
   const googleProvider = new GoogleAuthProvider();

@@ -23,23 +23,18 @@ const initialJobFormState = {
 
 const AddJobForm = () => {
   const [data, setData] = useState(initialJobFormState);
+
   const onChange = (e) => {
-    console.log(e);
-    console.log(e);
     const tempObj = { ...data };
     if (e.target) {
       const { name, value } = e.target;
-      console.log(name, value);
       setData({ ...tempObj, [name]: value });
     } else {
-      console.log(typeof e);
-      console.log(Object.keys(e));
       setData({ ...tempObj, date: e });
     }
   };
 
   const disabled = false;
-  const value = '';
   return (
     <Box width="80%" px={4} my={6}>
       <Typography mb={2} component="h2" variant="h6" textAlign="center">
