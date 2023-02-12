@@ -15,6 +15,9 @@ import Collapse from '@mui/material/Collapse';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Chip from '@mui/material/Chip';
+import { deleteItemFromDb } from '../firebase';
+import { useAuth } from './context/authUserContext';
+import { useNavigate, createSearchParams } from 'react-router-dom';
 
 const ExpandMore = styled((props) => {
   // eslint-disable-next-line no-unused-vars
@@ -29,12 +32,30 @@ const ExpandMore = styled((props) => {
 }));
 
 function Application({ data }) {
+  console.log(data, 'data');
   const [expanded, setExpanded] = React.useState(false);
+  const { authUser } = useAuth();
+  const navigate = useNavigate();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  const handleDeleteItem = (itemId, company) => {
+    console.log(itemId, company);
+    if (window.confirm(`Are you sure you want to delete ${company} application?`)) {
+      deleteItemFromDb(authUser.uid, itemId);
+    }
+  };
+  const editIconPressed = (id) => {
+    navigate({
+      pathname: '/addjob',
+      search: createSearchParams({
+        edit: true,
+        id: id,
+      }).toString(),
+    });
+  };
   return (
     <Grid item xs={12} md={6}>
       <Card
@@ -50,37 +71,32 @@ function Application({ data }) {
             borderBottom: '2px solid gray',
           }}
           avatar={<Avatar aria-label="company">{data.company.slice(0, 1).toUpperCase()}</Avatar>}
-          //   action={
-          //     <IconButton aria-label="settings">
-          //       <MoreVertIcon />
-          //     </IconButton>
-          //   }
-          title={data.position}
-          subheader={data.date}
+          title={data.jobTitle}
+          subheader={data.company}
         ></CardHeader>
         <CardContent sx={{ flex: 1 }}>
           <Grid container>
             <Grid item xs={6}>
               <Typography component="h2" variant="h5">
-                {data.location}
+                {data.jobType}
               </Typography>
               <Typography variant="subtitle1" color="text.secondary">
-                {data.location}
+                {data.status}
               </Typography>
             </Grid>
             <Grid item xs={6}>
               <Typography variant="subtitle1" paragraph>
-                {data.status}
+                {new Date(data.date.seconds * 1000).toDateString()}
               </Typography>
 
-              <Chip label={data.response.toUpperCase()}></Chip>
+              {data.response && <Chip label={data.response.toUpperCase()}></Chip>}
             </Grid>
           </Grid>
           <CardActions disableSpacing>
-            <IconButton aria-label="edit" sx={{ mr: 6 }}>
+            <IconButton aria-label="edit" sx={{ mr: 6 }} onClick={() => editIconPressed(data.id)}>
               <EditIcon />
             </IconButton>
-            <IconButton aria-label="delete">
+            <IconButton aria-label="delete" onClick={() => handleDeleteItem(data.id, data.company)}>
               <DeleteForeverIcon />
             </IconButton>
             <ExpandMore

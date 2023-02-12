@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography, Stack, TextField, Grid, Button } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import TextInput from '../../components/addJobForm/TextInput';
 import SelectField from '../../components/addJobForm/SelectField';
+import { useAuth } from '../../components/context/authUserContext';
+// import { ref, set, get, query, onValue } from 'firebase/database';
+import { db } from '../../firebase';
+import { collection, addDoc, getDoc, doc } from 'firebase/firestore';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 
-const status = ['pending', 'phone-call', 'interview'];
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const jobType = ['remote', 'full-time', 'part-time', 'intership'];
+const status = ['pending', 'applied', 'phone-call', 'interview', 'heard-back'];
+
+const jobType = ['remote', 'hybrid', 'full-time', 'part-time', 'intership'];
 
 const initialJobFormState = {
   jobTitle: '',
@@ -23,7 +30,29 @@ const initialJobFormState = {
 
 const AddJobForm = () => {
   const [data, setData] = useState(initialJobFormState);
+  const [disabled, setDisabled] = useState(false);
+  const { authUser } = useAuth();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
 
+  useEffect(() => {
+    const docId = searchParams.get('id');
+    if (docId) {
+      console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^');
+      const applicatioRef = collection(db, authUser.uid);
+      const docRef = doc(db, authUser.uid, docId);
+      try {
+        const docSnap = getDoc(docRef).then((doc) =>
+          setData({ ...doc.data(), id: doc.id, date: new Date(doc.data().date.seconds * 1000) }),
+        );
+      } catch (error) {
+        console.log(error);
+        toast.error('Sorry, didn&apstt find the application data');
+      }
+    }
+  }, []);
+  console.log(data, '******************************');
+  // console.log(data.date.toDate());
   const onChange = (e) => {
     const tempObj = { ...data };
     if (e.target) {
@@ -33,10 +62,29 @@ const AddJobForm = () => {
       setData({ ...tempObj, date: e });
     }
   };
+  const writeApplicationData = async () => {
+    if (!data.jobTitle || !data.company) {
+      toast.error('Fill out required fields');
+      return;
+    }
+    try {
+      setDisabled(true);
+      await addDoc(collection(db, authUser.uid), {
+        ...data,
+      }).then(() => {
+        setDisabled(false);
+        setData(initialJobFormState);
+        toast.success('The application was saved');
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(error.massage ? error.massage : 'Sorry, something is wrong');
+    }
+  };
 
-  const disabled = false;
   return (
-    <Box width="80%" px={4} my={6}>
+    <Box px={4} my={6} component="form">
+      <ToastContainer />
       <Typography mb={2} component="h2" variant="h6" textAlign="center">
         Create a Job Application
       </Typography>
@@ -48,6 +96,7 @@ const AddJobForm = () => {
               label="Job Title"
               name="jobTitle"
               onChange={onChange}
+              required
             />
             <SelectField
               items={status}
@@ -78,21 +127,29 @@ const AddJobForm = () => {
               <DesktopDatePicker
                 label="Application Date"
                 inputFormat="dd/MM/yyyy"
+                // value={new Date(data.date)}
                 value={data.date}
                 onChange={onChange}
                 disabled={disabled}
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
+
             <TextInput value={data.response} label="Response" name="response" onChange={onChange} />
           </Stack>
         </Grid>
         <Grid item md={10} sm={12} sx={{ width: '100%' }}>
           <TextInput value={data.notes} label="Notes" name="notes" onChange={onChange} />
         </Grid>
-        <Button onClick={() => console.log(data)} sx={{ margin: 'auto' }}>
-          Submit
-        </Button>
+        <Grid item md={2} sm={12}>
+          <Button
+            onClick={writeApplicationData}
+            sx={{ width: '100%', height: '100%' }}
+            disabled={disabled}
+          >
+            Submit
+          </Button>
+        </Grid>
       </Grid>
     </Box>
   );

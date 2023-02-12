@@ -2,9 +2,9 @@
 import { initializeApp } from 'firebase/app';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import 'react-toastify/dist/ReactToastify.css';
+
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -23,4 +23,15 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-export { auth, db };
+// update this function to accommodate changes to multiple values on an item object
+const setUpdateToDb = async (collection, itemId, dataToUpdate) => {
+  const itemRef = doc(db, collection, itemId);
+  await updateDoc(itemRef, dataToUpdate);
+};
+
+//create a function to delete item from db
+const deleteItemFromDb = async (token, itemId) => {
+  await deleteDoc(doc(db, token, itemId));
+};
+
+export { auth, db, setUpdateToDb, deleteItemFromDb };

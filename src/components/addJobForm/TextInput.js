@@ -9,6 +9,7 @@ function TextInput({ value, label, name, disabled, onChange }) {
       id={label}
       label={label}
       placeholder={label}
+      required={name === 'jobTitle' || name === 'company'}
       variant="outlined"
       size="normal"
       name={name}
