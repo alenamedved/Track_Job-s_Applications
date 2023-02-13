@@ -8,14 +8,10 @@ import SelectField from '../../components/addJobForm/SelectField';
 import { useAuth } from '../../components/context/authUserContext';
 import { db } from '../../firebase';
 import { collection, addDoc, getDoc, doc, setDoc } from 'firebase/firestore';
-import { useLocation, useSearchParams } from 'react-router-dom';
-
+import { useSearchParams } from 'react-router-dom';
+import { status, jobType } from '../../constants/inputs';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-const status = ['pending', 'applied', 'phone-call', 'interview', 'heard-back'];
-
-const jobType = ['remote', 'hybrid', 'full-time', 'part-time', 'intership'];
 
 const initialJobFormState = {
   jobTitle: '',
@@ -31,7 +27,7 @@ const AddJobForm = () => {
   const [data, setData] = useState(initialJobFormState);
   const [disabled, setDisabled] = useState(false);
   const { authUser } = useAuth();
-  const location = useLocation();
+
   const [searchParams] = useSearchParams();
   const docId = searchParams.get('id');
 
