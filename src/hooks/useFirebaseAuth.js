@@ -22,8 +22,6 @@ const formatAuthUser = (user) => ({
 export default function useFirebaseAuth() {
   const [user, loading, error] = useAuthState(auth);
 
-  console.log('useFirebaseAuth run');
-
   const authUser = user && formatAuthUser(user);
 
   const googleProvider = new GoogleAuthProvider();

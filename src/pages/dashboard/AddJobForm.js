@@ -29,14 +29,16 @@ const AddJobForm = () => {
   const { authUser } = useAuth();
 
   const [searchParams] = useSearchParams();
+  //determine if docId is available or will return null
   const docId = searchParams.get('id');
+  const header = docId ? 'Edit the Job Application' : 'Create a Job Application';
 
   useEffect(() => {
+    //find the doc in db and to fullfil the inputs
     if (docId) {
-      const applicatioRef = collection(db, authUser.uid);
       const docRef = doc(db, authUser.uid, docId);
       try {
-        const docSnap = getDoc(docRef).then((doc) =>
+        getDoc(docRef).then((doc) =>
           setData({ ...doc.data(), id: doc.id, date: new Date(doc.data().date.seconds * 1000) }),
         );
       } catch (error) {
@@ -51,6 +53,7 @@ const AddJobForm = () => {
     if (e.target) {
       const { name, value } = e.target;
       setData({ ...tempObj, [name]: value });
+      //datePicker will return a date obj directly
     } else {
       setData({ ...tempObj, date: e });
     }
@@ -58,9 +61,10 @@ const AddJobForm = () => {
 
   const handleSubmit = async () => {
     if (docId) {
-      return await setDoc(doc(db, authUser.uid, docId), data);
+      return await setDoc(doc(db, authUser.uid, docId), data); //edit the existing doc
     } else {
       return await addDoc(collection(db, authUser.uid), {
+        //or create a new one
         ...data,
       });
     }
@@ -89,7 +93,7 @@ const AddJobForm = () => {
     <Box px={4} my={6} component="form">
       <ToastContainer />
       <Typography mb={2} component="h2" variant="h6" textAlign="center">
-        Create a Job Application
+        {header}
       </Typography>
       <Grid container spacing={2}>
         <Grid item md={5} sm={12} sx={{ width: '100%' }}>
