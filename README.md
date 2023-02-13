@@ -1,3 +1,11 @@
+# Inspiration story
+Inspiration came when I was requested to keep tracking my job applications using Excel Spread Sheets.
+Decided, that it is a great idea for the React app.
+The app is still in process, it is just a prototype of what I want to achieve
+
+# Stack used
+React, Mui for styling to speed up the process, Firebase to store data and handle user's authorization.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
