@@ -57,13 +57,14 @@ function Application({ data }) {
     });
   };
   return (
-    <Grid item xs={12} md={6}>
+    <Grid item xs={12} md={6} sx={{ minHeight: '250px' }}>
       <Card
         sx={{
           display: 'flex',
           flexDirection: 'column',
           border: 'solid 8px #1a1919',
           borderRadius: '10px',
+          height: '100%',
         }}
       >
         <CardHeader

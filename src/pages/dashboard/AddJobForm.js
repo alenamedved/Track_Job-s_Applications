@@ -6,10 +6,9 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import TextInput from '../../components/addJobForm/TextInput';
 import SelectField from '../../components/addJobForm/SelectField';
 import { useAuth } from '../../components/context/authUserContext';
-// import { ref, set, get, query, onValue } from 'firebase/database';
 import { db } from '../../firebase';
-import { collection, addDoc, getDoc, doc } from 'firebase/firestore';
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { collection, addDoc, getDoc, doc, setDoc } from 'firebase/firestore';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -34,11 +33,10 @@ const AddJobForm = () => {
   const { authUser } = useAuth();
   const location = useLocation();
   const [searchParams] = useSearchParams();
+  const docId = searchParams.get('id');
 
   useEffect(() => {
-    const docId = searchParams.get('id');
     if (docId) {
-      console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^');
       const applicatioRef = collection(db, authUser.uid);
       const docRef = doc(db, authUser.uid, docId);
       try {
@@ -47,12 +45,11 @@ const AddJobForm = () => {
         );
       } catch (error) {
         console.log(error);
-        toast.error('Sorry, didn&apstt find the application data');
+        toast.error('Sorry, the application wasn&apos;t found');
       }
     }
   }, []);
-  console.log(data, '******************************');
-  // console.log(data.date.toDate());
+
   const onChange = (e) => {
     const tempObj = { ...data };
     if (e.target) {
@@ -62,16 +59,26 @@ const AddJobForm = () => {
       setData({ ...tempObj, date: e });
     }
   };
+
+  const handleSubmit = async () => {
+    if (docId) {
+      return await setDoc(doc(db, authUser.uid, docId), data);
+    } else {
+      return await addDoc(collection(db, authUser.uid), {
+        ...data,
+      });
+    }
+  };
+
   const writeApplicationData = async () => {
     if (!data.jobTitle || !data.company) {
-      toast.error('Fill out required fields');
+      toast.error('Fill out the required fields');
       return;
     }
+
     try {
       setDisabled(true);
-      await addDoc(collection(db, authUser.uid), {
-        ...data,
-      }).then(() => {
+      handleSubmit().then(() => {
         setDisabled(false);
         setData(initialJobFormState);
         toast.success('The application was saved');
